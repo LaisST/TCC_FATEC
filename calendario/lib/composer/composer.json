@@ -1,0 +1,22 @@
+{
+    "name": "wef/calendar",
+    "description": "Calendario portal do aluno com PHP.",
+    "autoload": {
+        "psr-4": {
+            "Wef\\Calendar\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Grupo 6 semestre",
+            "email": "laiscostast@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Classes\\": "../../class",
+            "Models\\": "../../model"
+        }
+    }
+}
