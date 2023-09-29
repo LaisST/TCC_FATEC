@@ -29,9 +29,10 @@
             $aluno->setTelefone($_POST['telefone']);
             $aluno->setEmail($_POST['email']);
             $aluno->setSenha(mt_rand(100000, 999999));
+            //$aluno->setSenha('604494');
             $aluno->setSenha_primeiro_acesso($aluno->getSenha());
             $aluno->setPrimeiro_acesso(1);
-            //$aluno->setSenha(hash('sha256', $aluno->getSenha()));
+            $aluno->setSenha(hash('sha256', $aluno->getSenha()));
 
             $result = $this->alunoDAO->cadastrar($aluno);
 
@@ -93,9 +94,12 @@
         public function logar(){
             $aluno = new Aluno();
             
+            // $aluno->setRA($_POST['ra']);
+            // $aluno->setSenha($_POST['senha']);
+            // $aluno->setSenha($aluno->setSenha(hash('sha256', $aluno->getSenha())));
             $aluno->setRA($_POST['ra']);
-            $aluno->setSenha($_POST['senha']);
-            //$aluno->setSenha($aluno->setSenha(hash('sha256', $aluno->getSenha())));
+            $senhaCriptografada = hash('sha256', $_POST['senha']);
+            $aluno->setSenha($senhaCriptografada);
             $result = $this->alunoDAO->logar($aluno);
 
             if(!is_null($result)){
