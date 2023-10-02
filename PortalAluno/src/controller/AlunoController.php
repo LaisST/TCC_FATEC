@@ -31,7 +31,7 @@
             $aluno->setSenha(mt_rand(100000, 999999));
             //$aluno->setSenha('604494');
             $aluno->setSenha_primeiro_acesso($aluno->getSenha());
-            $aluno->setPrimeiro_acesso(1);
+            $aluno->setPrimeiro_acesso(0);
             $aluno->setSenha(hash('sha256', $aluno->getSenha()));
 
             $result = $this->alunoDAO->cadastrar($aluno);
@@ -91,35 +91,136 @@
             return $corpo_email_cadastro;
         }
 
+        public function corpo_email_recuperar_senha($link){
+
+            $corpo_email_recuperar_senha = "<!DOCTYPE html>
+            <html lang='pt-br'>
+            <head>
+                <meta charset='UTF-8'>
+                <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+                <title>Recuperação de Senha</title>
+            </head>
+            <body>
+                <div style='text-align: center;'>
+                    <h1>Recuperação de Senha</h1>
+                    <p>Olá,</p>
+                    <p>Recebemos uma solicitação para redefinir sua senha. Clique no link abaixo para criar uma nova senha:</p>
+                    <p><a href='".$link."' style='background-color: #007bff; color: #fff; padding: 10px 20px; text-decoration: none; border-radius: 5px;'>Redefinir Senha</a></p>
+                    <p>Se você não solicitou uma redefinição de senha, pode ignorar este e-mail com segurança.</p>
+                    <p>Obrigado,</p>
+                    <p>Atenciosamente,<br>
+                    Secretaria <br>
+                    Fatec Ferraz de Vasconcelos<br>
+                    Telefone: 0000-0000<br>
+                    Email: mudar@nome.com</p>
+                </div>
+            </body>
+            </html>
+            ";
+
+            return $corpo_email_recuperar_senha;
+        }
+
+
+
         public function logar(){
+
             $aluno = new Aluno();
-            
-            // $aluno->setRA($_POST['ra']);
-            // $aluno->setSenha($_POST['senha']);
-            // $aluno->setSenha($aluno->setSenha(hash('sha256', $aluno->getSenha())));
+
             $aluno->setRA($_POST['ra']);
             $senhaCriptografada = hash('sha256', $_POST['senha']);
             $aluno->setSenha($senhaCriptografada);
+
             $result = $this->alunoDAO->logar($aluno);
 
             if(!is_null($result)){
+
                 $_SESSION['aluno'] = serialize($result);
                 header('location:../view/home.php');
 
             }else{
-                header('location:../view/login-estudante.php');
+
+                echo "<script language='javascript' type='text/javascript'>
+                alert('RA ou Senha inválidos. Por favor, tente novamente')
+                window.location.href='../view/login-estudante.php'</script>";
+
             }
 
         }
 
         public function logout(){
+
             if (isset($_SESSION['aluno'])) {
+
                 session_destroy();
                 header("Location:../../index.php");
                 exit;
+
             } else {
+
                 echo "Você não está logado.";
+
             }
+        }
+
+        public function alterar_senha(){
+            if(isset($_GET["acao"])){
+
+                $RA = $_POST["ra"];
+                $email = $_POST["email"];
+
+                if ($this->existe_aluno($RA, $email)) {
+
+                    // Gerar um token de redefinição de senha único
+                    $token = "";
+
+                    do{
+
+                        $token = bin2hex(random_bytes(32));
+
+                    }while($this->existe_token($token));
+
+                    // Armazenar o token na base de dados junto com o e-mail e uma data de expiração
+
+                    $this->salvar_token($RA, $email, $token);
+
+                    // // Enviar um e-mail com um link de redefinição de senha
+
+                    $link = "http://localhost/portalAluno/src/view/alterar_senha_token.php?token=$token";
+                    $this->envioEmail->enviarEmail($email, "Redefinir Senha do Portal do Aluno", $this->corpo_email_recuperar_senha($link));
+
+                    /*$mensagem = "Clique no link a seguir para redefinir sua senha: $link";
+                    mail($email, "Redefinição de Senha", $mensagem);*/
+
+                    echo "<script language='javascript' type='text/javascript'>
+                    alert('Um e-mail com instruções para redefinir sua senha foi enviado para o seu endereço de e-mail.')
+                    window.location.href='../view/login-estudante.php'</script>";
+
+                } else {
+                    echo "<script language='javascript' type='text/javascript'>
+                    alert('O e-mail fornecido não foi encontrado em nossa base de dados.')
+                    window.location.href='../view/login-estudante.php'</script>";
+
+                }
+            }
+        }
+
+        public function existe_aluno($RA, $email){
+            $existeAluno = $this->alunoDAO->existe_aluno($RA, $email);
+
+            return $existeAluno;
+        }
+
+        public function existe_token($token){
+            $existeToken = $this->alunoDAO->existe_token($token);
+
+            return $existeToken;
+        }
+
+        public function salvar_token($RA, $email, $token){
+            $salvarToken = $this->alunoDAO->salvar_token($RA, $email, $token);
+
+            return $salvarToken;
         }
         
     }
@@ -143,8 +244,9 @@
                 break;
 
             case "alterar_senha":
-                
+                $alunoController->alterar_senha();
                 break;
+
         }
     }
 ?>

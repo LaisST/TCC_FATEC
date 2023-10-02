@@ -34,7 +34,7 @@
                 $this->mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
                 $this->mail->Port       = 587;
                 $this->mail->SMTPSecure = 'tls';
-                $this->mail->SMTPDebug = 1; // Desativa a depuração
+                $this->mail->SMTPDebug = 0; // Desativa a depuração
 
                 // Configurações de remetente e destinatário
 

@@ -22,7 +22,14 @@
         }
 
         public function desconectar(){
-            mysqli_close($this->conexao);
+            
+            try{
+                
+                mysqli_close($this->conexao);
+
+            }catch(Exception $e){
+
+            }
         }
         
     }

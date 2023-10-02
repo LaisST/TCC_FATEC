@@ -49,7 +49,7 @@
                          autocomplete="off" required>
                     </div>
                     <a class="mt-2 hover:text-[#3829e0] transition-colors hover:underline w-max text-slate-400"
-                    href="alterar_senha.php">Esqueci minha senha</a>
+                    href="redefinir_senha.php">Esqueci minha senha</a>
                 </div>
                 <button class="mt-6 rounded-xl sm:text-lg font-normal py-3.5 text-white bg-[#3829e0] hover:bg-[#2b3ff7]
                 transition-colors duration-300 cursor-pointer">Entrar</button>

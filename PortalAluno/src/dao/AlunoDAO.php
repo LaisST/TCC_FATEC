@@ -25,6 +25,7 @@
 
                     $aluno->setRa($element['RA']);
                     $aluno->setNome($element['nome']);
+                    $aluno->setPrimeiro_acesso($element['primeiro_acesso']);
 
                     return $aluno;
 
@@ -40,17 +41,41 @@
             $sqlInsert = "INSERT INTO aluno (RA, nome, cpf, data_nascimento, telefone, email, senha, primeiro_acesso)
             values ('".$aluno->getRa()."', '".$aluno->getNome()."', '".$aluno->getCpf()."', '".$aluno->getData_nascimento()."', '".$aluno->getTelefone()."', '".$aluno->getEmail()."', '".$aluno->getSenha()."', '".$aluno->getPrimeiro_acesso()."')";
             
-            if (!mysqli_query($this->banco->getConexao(),$sqlInsert)) {
+            $result = mysqli_query($this->banco->getConexao(),$sqlInsert);
 
-                return false;
+            $this->banco->desconectar();
 
-            }else{
+            return $result > 0;
 
-                return true;
-
-            }
+            
         }
 
+        public function existe_aluno($RA, $email){
+            $sql = "SELECT RA FROM `aluno` WHERE `RA` = '".$RA."' AND email LIKE '".$email."' LIMIT 1";
+
+            $result = mysqli_query($this->banco->getConexao(), $sql);
+
+            return mysqli_num_rows($result) > 0;
+
+        }
+
+        public function existe_token($token){
+            $sql = "SELECT RA FROM `aluno` WHERE `token` = '".$token."' AND `expiracao_token` > NOW() LIMIT 1";
+
+            $result = mysqli_query($this->banco->getConexao(), $sql);
+
+
+            return mysqli_num_rows($result) > 0;
+        }
+
+        public function salvar_token($RA, $email, $token){
+           $sqlUpdate = "UPDATE aluno SET token = '".$token."', expiracao_token = DATE_ADD(NOW(), INTERVAL 24 HOUR) WHERE email LIKE '".$email."' AND RA = '".$RA."'";
+
+            $result = mysqli_query($this->banco->getConexao(), $sqlUpdate);
+            $this->banco->desconectar();
+
+            return $result > 0;
+        }
         
     }
 
