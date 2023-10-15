@@ -29,7 +29,6 @@
             $aluno->setTelefone($_POST['telefone']);
             $aluno->setEmail($_POST['email']);
             $aluno->setSenha(mt_rand(100000, 999999));
-            //$aluno->setSenha('604494');
             $aluno->setSenha_primeiro_acesso($aluno->getSenha());
             $aluno->setPrimeiro_acesso(0);
             $aluno->setSenha(hash('sha256', $aluno->getSenha()));
@@ -163,7 +162,7 @@
             }
         }
 
-        public function alterar_senha(){
+        public function enviar_token(){
             if(isset($_GET["acao"])){
 
                 $RA = $_POST["ra"];
@@ -222,8 +221,29 @@
 
             return $salvarToken;
         }
+
+        public function alterar_senha(){
+            
+            
+                $token = $_COOKIE['token'];
+                $senha = hash('sha256', $_POST['senha']);
+                $this->alunoDAO->alterar_senha($token, $senha);
+
+                    echo "<script language='javascript' type='text/javascript'>
+                    alert('Senha alterada com sucesso!')
+                    window.location.href='../view/login-estudante.php'</script>";
+
+            }
+
+        }
+            
         
-    }
+
+
+        
+        
+        
+    
 
     if(isset($_GET['acao'])){
 
@@ -243,9 +263,15 @@
                 $alunoController->cadastrar();
                 break;
 
+            case "enviar_token":
+                $alunoController->enviar_token();
+                break;
+
             case "alterar_senha":
                 $alunoController->alterar_senha();
                 break;
+        
+            
 
         }
     }

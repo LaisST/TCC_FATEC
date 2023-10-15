@@ -1,25 +1,17 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<?php
+    require_once 'header.php';
+?>
+
     <title>SIGA - Secretaria</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="../css/output.css">
 </head>
 <body class="bg-[url('../img/img-fundo.svg')] bg-no-repeat h-screen bg-top bg-indigo-100 bg-contain bg-opacity-80
              flex items-center justify-center min-[450px]:py-4 sm:px-4">
     <section class="w-full h-full max-w-lg p-6 font-light bg-white min-[450px]:rounded-2xl drop-shadow-xl text-slate-800
                     sm:h-auto">
-        <div class="bg-[url('../img/img-login-estudante.svg')] bg-no-repeat border-b bg-center border-solid
-                    border-slate-100 bg-contain h-52 rounded-t-2xl"></div>
         <div class="flex flex-col pt-8 font-sm gap-y-6">
             <div class="text-center">
                 <h2 class="text-2xl font-normal sm:text-3xl">Cadastro Aluno</h2>
-                <p class="sm:text-lg text-slate-400">Bem-vindo!</p>
+
             </div>
             <form class="flex flex-col select-none gap-y-6" method='POST' action="../controller/AlunoController.php?acao=cadastrar">
                 <div class="flex flex-col">
@@ -73,7 +65,7 @@
             </form>
         </div>
     </section>
-    <script src="/src/js/login-formatacao.js"></script>
+    <!-- <script src="/src/js/login-formatacao.js"></script> -->
 
 </body>
 </html>

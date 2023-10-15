@@ -66,6 +66,7 @@
 
 
             return mysqli_num_rows($result) > 0;
+            
         }
 
         public function salvar_token($RA, $email, $token){
@@ -74,6 +75,15 @@
             $result = mysqli_query($this->banco->getConexao(), $sqlUpdate);
             $this->banco->desconectar();
 
+            return $result > 0;
+        }
+
+        public function alterar_senha($token, $senha){
+            $sqlUpdate = "UPDATE aluno SET senha = '".$senha."' WHERE token = '".$token."'";
+
+            $result = mysqli_query($this->banco->getConexao(), $sqlUpdate);
+            $this->banco->desconectar();
+            echo 'ok';
             return $result > 0;
         }
         

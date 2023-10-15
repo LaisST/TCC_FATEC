@@ -1,14 +1,7 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<?php
+    require_once 'header.php';
+?>
     <title>SIGA - Alterar senha</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="../css/output.css">
 </head>
 <body class="bg-[url('../img/img-fundo.svg')] bg-no-repeat h-screen bg-top bg-indigo-100 bg-contain bg-opacity-80
              flex items-center justify-center min-[450px]:py-4 sm:px-4">
@@ -21,7 +14,7 @@
                 <h2 class="text-2xl font-normal sm:text-3xl">Redefinir Senha</h2>
                 
             </div>
-            <form class="flex flex-col select-none gap-y-6" method='POST' action="../controller/AlunoController.php?acao=alterar_senha">
+            <form class="flex flex-col select-none gap-y-6" method='POST' action="../controller/AlunoController.php?acao=enviar_token">
                 <div class="flex flex-col">
                     <label for="ra">Número do R.A</label>
                     <input class="bg-slate-50 focus:bg-slate-100 focus:border-[#3829e082] transition-colors duration-300
@@ -51,7 +44,7 @@
             </form>
         </div>
     </section>
-    <script src="/src/js/login-formatacao.js"></script>
+    <!-- <script src="/src/js/login-formatacao.js"></script> -->
 
 </body>
 </html>
