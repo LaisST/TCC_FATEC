@@ -5,15 +5,17 @@
         private $ra;
         private $title;
         private $description;
+        private $color;
         private $start;
         private $end;
 
         //Contrutor da classe
-        public function __construct($id=null, $ra=null, $title=null, $description=null, $start=null, $end=null){
+        public function __construct($id=null, $ra=null, $title=null, $description=null, $color=null,$start=null, $end=null){
             $this->id = $id;
             $this->ra = $ra;
             $this->title = $title;
             $this->description = $description;
+            $this->color = $color;
             $this->start = $start;
             $this->end = $end;
 
@@ -56,6 +58,16 @@
 
         public function setDescription($description){
             $this->description = $description;
+            return $this;
+        }
+
+        public function getColor(){
+            return $this->color;
+        }
+
+
+        public function setColor($color){
+            $this->color = $color;
             return $this;
         }
 
