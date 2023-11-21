@@ -48,29 +48,41 @@ smtp_port = 587
 smtp_user = 'tectionportalaluno@outlook.com'
 smtp_password = 'Tection@1234'
 
+# Destinatário
+destinatario = ''
+
+# Nome e e-mail do remetente
+nome_remetente = 'Portal do Aluno'
+remetente = smtp_user
+
+# Criar uma mensagem de e-mail
+mensagem = MIMEMultipart()
+mensagem['From'] = f'{Header(nome_remetente, "utf-8")} <{remetente}>'
+mensagem['To'] = destinatario
+mensagem['Subject'] = 'Eventos'
+
 # Recuperar os resultados
 usuarios = cursor.fetchall()
 
+eventos_por_ra = []
+
 # Exibir os resultados
-for usuario in usuarios:
-    # Destinatário
-    destinatario = usuario[1]
-
-    # Nome e e-mail do remetente
-    nome_remetente = 'Portal do Aluno'
-    remetente = smtp_user
-
-    # Criar uma mensagem de e-mail
-    mensagem = MIMEMultipart()
-    mensagem['From'] = f'{Header(nome_remetente, "utf-8")} <{remetente}>'
-    mensagem['To'] = destinatario
-    mensagem['Subject'] = 'Eventos'
-
-    consulta = "SELECT * FROM calendario WHERE ra = " + str(usuario[0]) + " AND calendario.start >= %s and calendario.start < %s"
+for linha in usuarios:
+    consulta = "SELECT * FROM calendario WHERE ra = "+str(linha[0])+" AND calendario.start >= %s and calendario.start < %s"
     cursor.execute(consulta, (data_futura, data_fim))
-    eventos = cursor.fetchall()
+    evento = cursor.fetchall()
+    eventos_por_ra.append(evento)
+    
+# Exibir custos por usuário
 
-    # Corpo do e-mail
+for i, eventos in enumerate(eventos_por_ra):
+
+    
+    destinatario = usuarios[i][1]
+    mensagem['To'] = destinatario
+    
+    # Corpo do e-mail>
+
     corpo_email = f"""
     <!DOCTYPE html>
     <html lang='pt-br'>
@@ -85,22 +97,23 @@ for usuario in usuarios:
         <h1>Eventos do Calendário</h1>
     </header>
 
-    <main style='max-width: 600px;margin,0 auto; padding: 20px;'>
-        <h3>Olá {usuario[2].split()[0]},</h3>
+    <main style='max-width: 600px;margin: 0 auto; padding: 20px;'>
+        <h3>Olá {usuarios[i][2].split()[0]},</h3>
         <p><strong> Fique atento!</strong>. Em 3 dias os seguintes eventos irão acontecer: </p>
         <ul style='list-style-type: none;'>
         
     """
 
-    for evento in eventos:
-        data_formatada = evento[5].strftime('%d/%m/%Y %H:%M:%S')
+    for linha in eventos:
+        data_formatada = linha[5].strftime('%d/%m/%Y %H:%M:%S')
         corpo_email += f"""
             <li>
-            <strong>Nome do Evento: </strong> {evento[2]} <br>
-            <strong>Descrição: </strong> {evento[3]}<br> 
+            <strong>Nome do Evento: </strong> {linha[2]} <br>
+            <strong>Descrição: </strong> {linha[3]}<br> 
             <strong>Início: </strong>{data_formatada} <br>
             <br>
             </li>
+           
         """
 
     corpo_email += """
@@ -111,7 +124,7 @@ for usuario in usuarios:
 
     <!-- Rodapé do E-mail -->
         <p>Atenciosamente,<br>
-        EducaFoco <br>
+        Portal do Aluno <br>
     </footer>
 
     </body>
@@ -128,13 +141,13 @@ for usuario in usuarios:
 
         # Enviar o e-mail
         servidor_smtp.sendmail(remetente, destinatario, mensagem.as_string())
-        print(f'E-mail enviado com sucesso para {destinatario}!')
+        print('E-mail enviado com sucesso!')
 
         # Encerrar a conexão com o servidor SMTP
         servidor_smtp.quit()
 
     except Exception as e:
-        print(f'Erro ao enviar o e-mail para {destinatario}: {str(e)}')
+        print('Erro ao enviar o e-mail: ', str(e))
 
 # Fechar o cursor e a conexão
 cursor.close()

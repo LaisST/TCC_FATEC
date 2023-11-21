@@ -9,14 +9,14 @@ class Aluno {
     private $email;
     private $telefone;
     private $senha;
-    private $primeiro_acesso;
+    private $data_expiracao_senha;
     private $senha_primeiro_acesso;
     
 
 
 
     // Construtor da classe
-    public function __construct($ra = null, $nome = null, $cpf = null, $data_nascimento = null, $email = null, $telefone = null, $senha = null) {
+    public function __construct($ra = null, $nome = null, $cpf = null, $data_nascimento = null, $email = null, $telefone = null, $senha = null, $data_expiracao_senha = null) {
         $this->ra = $ra;
         $this->nome = $nome;
         $this->cpf = $cpf;
@@ -24,6 +24,7 @@ class Aluno {
         $this->email = $email;
         $this->telefone = $telefone;
         $this->senha = $senha;
+        $this->data_expiracao_senha = $data_expiracao_senha;
     }
     // Método para obter o nome do aluno
     public function getRa() {
@@ -84,15 +85,15 @@ public function getSenha() {
     }
 
 
-    public function getPrimeiro_acesso(){
+    public function getData_expiracao_senha(){
         
-        return $this->primeiro_acesso;
+        return $this->data_expiracao_senha;
 
     }
 
-    public function setPrimeiro_acesso($primeiro_acesso){
+    public function setData_expiracao_senha($data_expiracao_senha){
 
-        $this->primeiro_acesso = $primeiro_acesso;
+        $this->data_expiracao_senha = $data_expiracao_senha;
 
     }
 

@@ -20,7 +20,14 @@
         }
 
         public function cadastrar(){
+            date_default_timezone_set('America/Sao_Paulo');
             $aluno = new Aluno();
+
+            $dataAtualObj = new DateTime();
+            $dataAtual = $dataAtualObj->format('Y-m-d H:i:s');
+            $dataFuturaObj = new DateTime($dataAtual);
+            $dataFuturaObj->add(new DateInterval('P90D'));
+            $dataFutura = $dataFuturaObj->format('Y-m-d H:i:s');    
 
             $aluno->setRA($_POST['ra']);
             $aluno->setNome($_POST['nome']);
@@ -30,7 +37,7 @@
             $aluno->setEmail($_POST['email']);
             $aluno->setSenha(mt_rand(100000, 999999));
             $aluno->setSenha_primeiro_acesso($aluno->getSenha());
-            $aluno->setPrimeiro_acesso(0);
+            $aluno->setData_expiracao_senha($dataFutura);
             $aluno->setSenha(hash('sha256', $aluno->getSenha()));
 
             $result = $this->alunoDAO->cadastrar($aluno);
@@ -125,6 +132,8 @@
         public function logar(){
 
             $aluno = new Aluno();
+            $dataAtualObj = new DateTime();
+            $dataAtual = $dataAtualObj->format('Y-m-d H:i:s');
 
             $aluno->setRA($_POST['ra']);
             $senhaCriptografada = hash('sha256', $_POST['senha']);
@@ -133,12 +142,21 @@
             $result = $this->alunoDAO->logar($aluno);
 
             if(!is_null($result)){
-
                 $_SESSION['aluno'] = serialize($result);
-                header('location:../view/home.php');
+
+                if($result->getData_expiracao_senha() <= $dataAtual){
+
+                    echo "<script language='javascript' type='text/javascript'>
+                    alert('Sua senha expirou! Altere para uma nova senha.')
+                    window.location.href='../view/alterar_senha_logado.php'</script>";
+                
+                }else{
+
+                    header('location:../view/home.php');
+                }
 
             }else{
-
+                
                 echo "<script language='javascript' type='text/javascript'>
                 alert('RA ou Senha inválidos. Por favor, tente novamente')
                 window.location.href='../view/login-estudante.php'</script>";
@@ -223,21 +241,94 @@
         }
 
         public function alterar_senha(){
+            date_default_timezone_set('America/Sao_Paulo');
+            $dataAtualObj = new DateTime();
+            $dataAtual = $dataAtualObj->format('Y-m-d H:i:s');
+            $dataFuturaObj = new DateTime($dataAtual);
+            $dataFuturaObj->add(new DateInterval('P90D'));
+            $dataFutura = $dataFuturaObj->format('Y-m-d H:i:s');  
             
-            
-                $token = $_COOKIE['token'];
-                $senha = hash('sha256', $_POST['senha']);
-                $this->alunoDAO->alterar_senha($token, $senha);
+            $token = $_COOKIE['token'];
+            $senha = hash('sha256', $_POST['senha']);
+            $this->alunoDAO->alterar_senha($token, $senha, $dataFutura);
 
-                    echo "<script language='javascript' type='text/javascript'>
-                    alert('Senha alterada com sucesso!')
-                    window.location.href='../view/login-estudante.php'</script>";
+                echo "<script language='javascript' type='text/javascript'>
+                alert('Senha alterada com sucesso!')
+                window.location.href='../view/login-estudante.php'</script>";
 
             }
 
+        public function alterar_senha_logado(){
+            date_default_timezone_set('America/Sao_Paulo');
+            $dataAtualObj = new DateTime();
+            $dataAtual = $dataAtualObj->format('Y-m-d H:i:s');
+            $dataFuturaObj = new DateTime($dataAtual);
+            $dataFuturaObj->add(new DateInterval('P90D'));
+            $dataFutura = $dataFuturaObj->format('Y-m-d H:i:s');  
+
+            $RA = unserialize($_SESSION['aluno'])->getRA();
+            $senhaBanco = unserialize($_SESSION['aluno'])->getSenha();
+
+            $senhaAntiga = hash('sha256', $_POST['senha_antiga']);
+            $senha = hash('sha256', $_POST['senha']);
+
+            if($senhaBanco == $senhaAntiga){
+                $result = $this->alunoDAO->alterar_senha_logado($RA, $senha, $dataFutura);
+
+                if($result){
+                    echo "<script language='javascript' type='text/javascript'>
+                    alert('Senha alterada com sucesso!')
+                    window.location.href='../view/home.php'</script>";
+                }else{
+                    echo "<script language='javascript' type='text/javascript'>
+                    alert('Senha Não alterada!')
+                    window.location.href='../view/home.php'</script>";
+
+                }
+                
+
+            }else{
+
+                echo "<script language='javascript' type='text/javascript'>
+                alert('Senha Antiga inválida. Por favor, tente novamente')
+                window.location.href='../view/alterar_senha_logado.php'</script>";
+
+            }
+
+
+        }
+
+                
+        //Disciplinas
+
+        //Horario
+        public function exibir_horario(){
+            if(isset($_SESSION['aluno'])){
+                $RA = unserialize($_SESSION['aluno'])->getRA();
+            }
+            return $this->alunoDAO->exibir_horario($RA);
+        }
+
+        //Notas e Faltas
+        public function exibir_notas_faltas(){
+            if(isset($_SESSION['aluno'])){
+                $RA = unserialize($_SESSION['aluno'])->getRA();
+            }
+            return $this->alunoDAO->exibir_notas_faltas($RA);
+        }
+
+        //Historico
+        public function exibir_historico(){
+            if(isset($_SESSION['aluno'])){
+                $RA = unserialize($_SESSION['aluno'])->getRA();
+            }
+            return $this->alunoDAO->exibir_historico($RA);
+        }
+
         }
             
-        
+
+
 
 
         
@@ -269,6 +360,10 @@
 
             case "alterar_senha":
                 $alunoController->alterar_senha();
+                break;
+
+            case "alterar_senha_logado":
+                $alunoController->alterar_senha_logado();
                 break;
         
             
