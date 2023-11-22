@@ -24,9 +24,7 @@
             </div>
             <div class="grid grid-cols-2 gap-x-4">
                 <input class="hidden input-identificador" id="estudante" type="radio" name="identificacao" checked>
-                <label class="flex flex-col items-center px-6 py-10 transition-opacity duration-300 border border-solid
-                            rounded-lg cursor-pointer select-none sm:text-lg gap-y-2 bg-slate-100 border-slate-200
-                            opacity-40 label-identificador" for="estudante">
+                <label class="flex flex-col items-center px-6 py-10 transition-opacity duration-300 border border-solid rounded-lg cursor-pointer select-none sm:text-lg gap-y-2 bg-slate-100 border-slate-200 opacity-40 label-identificador" for="estudante">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1"
                         stroke="currentColor" class="w-8 h-8 transition-colors duration-300 sm:w-9 sm:h-9">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75
@@ -36,9 +34,7 @@
                     Estudante
                 </label>
                 <input class="hidden input-identificador" id="professor" type="radio" name="identificacao">
-                <label class="flex flex-col items-center px-6 py-10 transition-opacity duration-300 border
-                                border-solid rounded-lg cursor-pointer select-none sm:text-lg gap-y-2 bg-slate-100
-                                border-slate-200 opacity-40 label-identificador" for="professor">
+                <label class="flex flex-col items-center px-6 py-10 transition-opacity duration-300 border border-solid rounded-lg cursor-pointer select-none sm:text-lg gap-y-2 bg-slate-100 border-slate-200 opacity-40 label-identificador" for="professor">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1"
                         stroke="currentColor" class="w-8 h-8 transition-colors duration-300 sm:w-9 sm:h-9">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491
