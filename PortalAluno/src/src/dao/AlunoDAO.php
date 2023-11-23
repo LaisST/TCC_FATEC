@@ -123,12 +123,10 @@
             matricula.nota1,
             matricula.nota2,
             matricula.nota3,
-            matricula.faltas,
-            historico.media_final,
-            historico.frequencia
+            matricula.faltas
         FROM matricula
         INNER JOIN disciplina ON matricula.cod_disciplina = disciplina.cod_disciplina
-        INNER JOIN historico ON matricula.RA = historico.RA AND matricula.cod_disciplina = historico.cod_disciplina
+        
         WHERE matricula.RA = '".$RA."'
         order by disciplina.semestre;";
 
@@ -143,19 +141,35 @@
 			disciplina.cod_disciplina,
             disciplina.nome_disciplina,
             historico.media_final,
-            matricula.faltas,
             historico.frequencia,
             historico.aprovado,
             historico.observacao
         FROM historico
-        LEFT JOIN matricula ON matricula.RA = historico.RA AND matricula.cod_disciplina = historico.cod_disciplina
-        LEFT JOIN disciplina ON historico.cod_disciplina = disciplina.cod_disciplina
-        WHERE historico.RA = '".$RA."'";
+        INNER JOIN disciplina ON historico.cod_disciplina = disciplina.cod_disciplina
+        WHERE historico.RA = '".$RA."'
+        ORDER BY disciplina.semestre;";
 
             $result = mysqli_query($this->banco->getConexao(), $sql) or die("Erro ao retornar os dados.");
             mysqli_close($this->banco->getConexao());
             return $result;
 
+        }
+
+        //Lançamento de NOtas e Faltas
+
+        public function lancar_notas_faltas($ra, $disciplina, $nota1, $nota2, $nota3, $faltas){
+            $sqlUpdate = "UPDATE matricula 
+            SET 
+            nota1 = '".$nota1."',
+            nota2 = '".$nota2."',
+            nota3 = '".$nota3."',
+            faltas = '".$faltas."'
+            WHERE ra LIKE '".$ra."' AND cod_disciplina = '".$disciplina."';";
+
+            $result = mysqli_query($this->banco->getConexao(), $sqlUpdate);
+            $this->banco->desconectar();
+
+            return $result > 0;
         }
         
     }

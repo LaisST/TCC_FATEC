@@ -325,7 +325,22 @@
             return $this->alunoDAO->exibir_historico($RA);
         }
 
+        //Lançamento de Notas e Faltas
+        public function lancar_notas_faltas(){
+            $ra = $_POST["ra"];
+            $disciplina = $_POST["disciplina"];
+            $nota1 = $_POST["nota1"];
+            $nota2 = $_POST["nota2"];
+            $nota3 = $_POST["nota3"];
+            $faltas = $_POST["faltas"];
+
+            return $this->alunoDAO->lancar_notas_faltas($ra, $disciplina, $nota1, $nota2, $nota3, $faltas);
+
         }
+
+
+
+    }
             
 
 
@@ -364,6 +379,10 @@
 
             case "alterar_senha_logado":
                 $alunoController->alterar_senha_logado();
+                break;
+
+            case "lancar_notas_faltas":
+                $alunoController->lancar_notas_faltas();
                 break;
         
             

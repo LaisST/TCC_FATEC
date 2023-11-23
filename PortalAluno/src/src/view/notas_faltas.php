@@ -10,7 +10,7 @@
     <script src="../js/bootstrap.min.js"></script>
 
 
-    <title>EducaFoco</title>
+    <title>EducaFoco - Notas e Faltas</title>
 </head>
 <body class="bg-[url('../img/img-fundo.svg')] bg-no-repeat h-screen bg-top bg-indigo-100 bg-contain bg-opacity-80
              flex items-center justify-center min-[450px]:py-4 sm:px-4">
@@ -28,9 +28,8 @@
                                             <th>Nota 1</th>
                                             <th>Nota 2</th>
                                             <th>Nota 3</th>
-                                            <th>Média</th>
                                             <th>Faltas</th>
-                                            <th>Frequencia</th>
+                                    
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -44,9 +43,8 @@
                                                     echo "  <td>".$element['nota1']."</td>";
                                                     echo "  <td>".$element['nota2']."</td>";
                                                     echo "  <td>".$element['nota3']."</td>";
-                                                    echo "  <td>".$element['media_final']."</td>";
                                                     echo "  <td>".$element['faltas']."</td>";
-                                                    echo "  <td>".$element['frequencia']."%</td>";
+                                                   
                                                 }
                                             }
                                         ?>

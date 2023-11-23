@@ -29,7 +29,6 @@
                                             <th>Sigla</th>
                                             <th>Disciplina</th>
                                             <th>Média Final</th>
-                                            <th>Qtd. Faltas</th>
                                             <th>Frequência (%)</th>
                                             <th>Aprovado</th>
                                             <th>Observação</th>
@@ -38,9 +37,7 @@
                                     <tbody>
                                         <?php
                                             $rows = $alunoController->exibir_historico();
-                                            $rows_per_page = 20;
-                                            $page = isset($_GET['page']) ? $_GET['page'] : 1;
-                                            $offset = ($page - 1) * $rows_per_page;
+      
                                     
                                             if(mysqli_num_rows($rows) > 0){
                                                 while($element = mysqli_fetch_assoc($rows)){
@@ -48,7 +45,6 @@
                                                     echo "  <td>".$element['cod_disciplina']."</td>";
                                                     echo "  <td>".$element['nome_disciplina']."</td>";
                                                     echo "  <td>".$element['media_final']."</td>";
-                                                    echo "  <td>".$element['faltas']."</td>";
                                                     echo "  <td>".$element['frequencia']."%</td>";
                                                     echo "  <td>";
                                                     if ($element['aprovado'] == 1) {

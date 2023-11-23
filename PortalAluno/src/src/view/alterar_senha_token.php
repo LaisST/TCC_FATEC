@@ -3,7 +3,7 @@
 ?>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <title>SIGA - Alterar senha</title>
+    <title>EducaFoco - Alterar senha</title>
     <?php
         require_once '../controller/AlunoController.php';
 
