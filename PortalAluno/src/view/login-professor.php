@@ -39,6 +39,6 @@
             </form>
         </div>
     </section>
-    <script src="/src/js/login-formatacao.js"></script>
+    <script src="../src/js/login-formatacao.js"></script>
 </body>
 </html>
