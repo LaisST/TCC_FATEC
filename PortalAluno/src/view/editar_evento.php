@@ -13,7 +13,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="../js/calendario.js"></script>
 
-    <title>Adicionar Evento</title>
+    <title>EducaFoco - Adicionar Evento</title>
 
     </head>
     <body class="bg-[url('../img/img-fundo.svg')] bg-no-repeat h-screen bg-top bg-indigo-100 bg-contain bg-opacity-80

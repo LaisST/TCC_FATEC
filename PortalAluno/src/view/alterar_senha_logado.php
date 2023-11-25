@@ -1,26 +1,16 @@
 <?php
     require_once 'header.php';
+    require_once '../controller/AlunoController.php';
+    require_once '../model/Aluno.php';
+    require_once '../dao/AlunoDAO.php';
+    if(!isset($_SESSION['aluno'])){
+        header('location: login-estudante.php');
+    }
+
 ?>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <title>EducaFoco - Alterar senha</title>
-    <?php
-        require_once '../controller/AlunoController.php';
-
-        $alunoController = new AlunoController();
-        if(isset($_GET['token'])){
-            $token = $_GET['token'];
-            setcookie('token', $token, time() + 3600, '/'); // Este exemplo define o cookie para expirar em 1 hora
-
-            if (empty($token) || !$alunoController->existe_token($token)) {
-                echo "<script language='javascript' type='text/javascript'>
-                alert('Token inválido ou expirado')
-                window.location.href='../view/login-estudante.php'</script>";
-                
-            }
-        }
-    
-    ?>
 </head>
 <body class="bg-[url('../img/img-fundo.svg')] bg-no-repeat h-screen bg-top bg-indigo-100 bg-contain bg-opacity-80
              flex items-center justify-center min-[450px]:py-4 sm:px-4">
@@ -33,16 +23,25 @@
                 <h2 class="text-2xl font-normal sm:text-3xl">Alterar Senha</h2>
                 
             </div>
-            <form class="flex flex-col select-none gap-y-6" method='POST' onsubmit="return validador_formulario_senha()" action="../controller/AlunoController.php?acao=alterar_senha">
+            <form class="flex flex-col select-none gap-y-6" method='POST' onsubmit="return validador_formulario_senha()" action="../controller/AlunoController.php?acao=alterar_senha_logado">
+            
             <div class="flex flex-col">
-                    <label for="nome">Nova Senha</label>
+                    <label for="senha_antiga">Senha Antiga</label>
+                    <input class="bg-slate-50 focus:bg-slate-100 focus:border-[#3829e082] transition-colors duration-300
+                                 p-2 mt-1 border border-solid rounded-lg outline-none placeholder-slate-300
+                                 border-slate-200" type="password" name="senha_antiga" id="senha_antiga"
+                                 placeholder="Senha Antiga" required>
+            </div>
+            
+            <div class="flex flex-col">
+                    <label for="senha_nova">Nova Senha</label>
                     <input class="bg-slate-50 focus:bg-slate-100 focus:border-[#3829e082] transition-colors duration-300
                                  p-2 mt-1 border border-solid rounded-lg outline-none placeholder-slate-300
                                  border-slate-200" type="password" name="senha" id="senha"
                                  placeholder="Nova Senha" required>
             </div>
             <div class="flex flex-col">
-                    <label for="nome">Confirme a Senha</label>
+                    <label for="confirmacao_senha">Confirme a Senha</label>
                     <input class="bg-slate-50 focus:bg-slate-100 focus:border-[#3829e082] transition-colors duration-300
                                  p-2 mt-1 border border-solid rounded-lg outline-none placeholder-slate-300
                                  border-slate-200" type="password" name="confirmacaoSenha" id="confirmacaoSenha"
@@ -56,6 +55,7 @@
         </div>
     </section>
     <!-- <script src="/src/js/login-formatacao.js"></script> -->
+
 
     <script type="text/javascript">
         function validador_formulario_senha(){

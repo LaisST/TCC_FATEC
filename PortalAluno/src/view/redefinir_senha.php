@@ -1,7 +1,7 @@
 <?php
     require_once 'header.php';
 ?>
-    <title>SIGA - Alterar senha</title>
+    <title>EducaFoco - Alterar senha</title>
 </head>
 <body class="bg-[url('../img/img-fundo.svg')] bg-no-repeat h-screen bg-top bg-indigo-100 bg-contain bg-opacity-80
              flex items-center justify-center min-[450px]:py-4 sm:px-4">

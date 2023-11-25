@@ -3,7 +3,7 @@
     $date=new \DateTime($_GET['date'],new \DateTimeZone('America/Sao_Paulo')); 
 ?>
 
-    <title>Adicionar Evento</title>
+    <title>EducaFoco - Adicionar Evento</title>
 
     </head>
     <body class="bg-[url('../img/img-fundo.svg')] bg-no-repeat h-screen bg-top bg-indigo-100 bg-contain bg-opacity-80

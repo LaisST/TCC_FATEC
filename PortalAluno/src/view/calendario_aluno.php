@@ -2,13 +2,16 @@
     require_once 'header.php';
     require_once '../controller/AlunoController.php';
 
+        if(!isset($_SESSION['aluno'])){
+        header('location: login-estudante.php');
+    }
 ?>
 
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <script src="../js/jquery-3.6.0.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
     
-    <title>Calendario Portal do Aluno</title>
+    <title>EducaFoco - Calendario</title>
     <style>
         a{  
             color: black !important;
@@ -21,9 +24,9 @@
 
              <div style="width: 1000px; height: 800px; background-color: white; border-radius: 10px;">
                 <div class="calendarUser"></div>
-                <button href="home.php" type="button" class="btn btn-primary float-end bg-[#2C3E50] hover:bg-[#2C3E50]
+                <button href="home.php" type="button" class="btn btn-primary  float-end bg-[#2C3E50] hover:bg-[#2C3E50]
                 transition-colors duration-300 cursor-pointer"
-                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem; margin-top: 10px;" 
+                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem; margin-top: 10px; background-color: #2C3E50;border-color: #2C3E50;"
                         onclick="window.location.href = 'home.php';">
                         Voltar
                 </button>
