@@ -16,6 +16,11 @@
              flex items-center justify-center min-[450px]:py-4 sm:px-4">
     <section class="w-full h-full max-w-lg p-6 font-light bg-white min-[450px]:rounded-2xl drop-shadow-xl text-slate-800
                     sm:h-auto">
+        <a href="home.php">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-7 lg:w-9 h-7 lg:h-9">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75" />
+            </svg>
+        </a>
         <div class="bg-[url('../img/img-login-estudante.svg')] bg-no-repeat border-b bg-center border-solid
                     border-slate-100 bg-contain h-52 rounded-t-2xl"></div>
         <div class="flex flex-col pt-8 font-sm gap-y-6">
