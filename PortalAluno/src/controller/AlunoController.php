@@ -127,6 +127,39 @@
             return $corpo_email_recuperar_senha;
         }
 
+        public function corpo_email_revisao_notas($disciplina, $justificativa, $RA){
+
+
+
+            $corpo_email_revisao_notas = "
+                <!DOCTYPE html>
+                <html lang='pt-br'>
+                <head>
+                    <meta charset='UTF-8'>
+                    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+                    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+                    <title>Solicitação de Revisão de Notas</title>
+                </head>
+                <body style='font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;'>
+
+                    <div style='max-width: 600px; margin: 0 auto; background-color: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);'>
+                        <h2 style='color: #3829e0; text-align: center;'>Solicitação de Revisão de Notas</h2>
+                        <p><strong>RA: </strong>" .$RA."</p>
+                        <p><strong>Disciplina: </strong>" .$disciplina."</p>
+                        <p><strong>Justificativa: </strong> ".$justificativa."</p>
+                        <hr style='border: 1px solid #ddd;'>
+
+                        <p style='color: #888; font-size: 12px; text-align: center;'>Solicitação enviada via EDUCAFOCO.</p>
+                    </div>
+
+                </body>
+                </html>
+
+            ";
+
+            return $corpo_email_revisao_notas;
+        }
+
 
 
         public function logar(){
@@ -347,6 +380,29 @@
 
         }
 
+        //Solicitação revisão notas
+        
+        public function solicitar_revisao_nota(){
+            $disciplina = $_POST['disciplina'];
+            $justificativa =$_POST['justificativa'];
+            if(isset($_SESSION['aluno'])){
+                $RA = unserialize($_SESSION['aluno'])->getRA();
+            }
+            $solicitacao = $this->envioEmail->enviarEmail('laiscostast2@gmail.com', 'Solicitacao de Revisao de Notas', $this->corpo_email_revisao_notas($disciplina, $justificativa, $RA));
+            
+            if($solicitacao){
+                echo "<script language='javascript' type='text/javascript'>
+                alert('Soliictação enviada com sucesso')
+                window.location.href='../view/home.php'</script>";
+            }else{
+                echo "<script language='javascript' type='text/javascript'>
+                alert('Soliictação não enviada, tente novamente.')
+                window.location.href='../view/home.php'</script>";
+            }
+            
+
+        }
+
 
 
     }
@@ -393,6 +449,11 @@
             case "lancar_notas_faltas":
                 $alunoController->lancar_notas_faltas();
                 break;
+
+            case "solicitar_revisao_nota":
+                $alunoController->solicitar_revisao_nota();
+                break;
+                
         
             
 

@@ -101,7 +101,7 @@
                                         <a class="py-2 hover:underline" href="#">Revisão de histórico</a>
                                     </li>
                                     <li class="py-1.5">
-                                        <a class="py-2 hover:underline" href="#">Revisão de notas</a>
+                                        <a class="py-2 hover:underline" href="solicitar_revisao_nota.php">Revisão de notas</a>
                                     </li>
                                 </ul>
                             </div>
