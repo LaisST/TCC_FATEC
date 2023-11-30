@@ -98,7 +98,7 @@
                                         <a class="py-2 hover:underline" href="#">Documentação</a>
                                     </li>
                                     <li class="py-1.5">
-                                        <a class="py-2 hover:underline" href="#">Revisão de histórico</a>
+                                        <a class="py-2 hover:underline" href="solicitar_revisao_falta.php">Revisão de faltas</a>
                                     </li>
                                     <li class="py-1.5">
                                         <a class="py-2 hover:underline" href="solicitar_revisao_nota.php">Revisão de notas</a>
