@@ -95,7 +95,7 @@
                                 </div>
                                 <ul class="flex flex-col gap-2 pt-4 mt-4 text-sm list-disc list-inside border-t border-solid md:text-base lg:pt-6 border-slate-200 text-slate-400 lg:mt-6">
                                     <li class="py-1.5">
-                                        <a class="py-2 hover:underline" href="#">Documentação</a>
+                                        <a class="py-2 hover:underline" href="solicitar_documento.php">Documentação</a>
                                     </li>
                                     <li class="py-1.5">
                                         <a class="py-2 hover:underline" href="solicitar_revisao_falta.php">Revisão de faltas</a>

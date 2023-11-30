@@ -171,7 +171,7 @@
                     <meta charset='UTF-8'>
                     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
                     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-                    <title>Solicitação de Revisão de Notas</title>
+                    <title>Solicitação de Revisão de Faltas</title>
                 </head>
                 <body style='font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;'>
 
@@ -180,6 +180,38 @@
                         <p><strong>RA: </strong>" .$RA."</p>
                         <p><strong>Disciplina: </strong>" .$disciplina."</p>
                         <p><strong>Justificativa: </strong> ".$justificativa."</p>
+                        <hr style='border: 1px solid #ddd;'>
+
+                        <p style='color: #888; font-size: 12px; text-align: center;'>Solicitação enviada via EDUCAFOCO.</p>
+                    </div>
+
+                </body>
+                </html>
+
+            ";
+
+            return $corpo_email_revisao_faltas;
+        }
+
+        public function corpo_email_solicitacao_documento($tipo_documento, $RA){
+
+
+
+            $corpo_email_revisao_faltas = "
+                <!DOCTYPE html>
+                <html lang='pt-br'>
+                <head>
+                    <meta charset='UTF-8'>
+                    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+                    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+                    <title>Solicitação de Documento</title>
+                </head>
+                <body style='font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;'>
+
+                    <div style='max-width: 600px; margin: 0 auto; background-color: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);'>
+                        <h2 style='color: #3829e0; text-align: center;'>Solicitação de Documento</h2>
+                        <p><strong>RA: </strong>" .$RA."</p>
+                        <p><strong>Tipo de documento: </strong>" .$tipo_documento."</p>
                         <hr style='border: 1px solid #ddd;'>
 
                         <p style='color: #888; font-size: 12px; text-align: center;'>Solicitação enviada via EDUCAFOCO.</p>
@@ -425,11 +457,11 @@
             
             if($solicitacao){
                 echo "<script language='javascript' type='text/javascript'>
-                alert('Solictação enviada com sucesso')
+                alert('Solicitação enviada com sucesso')
                 window.location.href='../view/home.php'</script>";
             }else{
                 echo "<script language='javascript' type='text/javascript'>
-                alert('Soliictação não enviada, tente novamente.')
+                alert('Solicitação não enviada, tente novamente.')
                 window.location.href='../view/home.php'</script>";
             }
             
@@ -441,18 +473,37 @@
             if(isset($_SESSION['aluno'])){
                 $RA = unserialize($_SESSION['aluno'])->getRA();
             }
-            $solicitacao = $this->envioEmail->enviarEmail('laiscostast2@gmail.com', 'Solicitacao de Revisao de Notas', $this->corpo_email_revisao_faltas($disciplina, $justificativa, $RA));
+            $solicitacao = $this->envioEmail->enviarEmail('laiscostast2@gmail.com', 'Solicitacao de Revisao de Faltas', $this->corpo_email_revisao_faltas($disciplina, $justificativa, $RA));
             
             if($solicitacao){
                 echo "<script language='javascript' type='text/javascript'>
-                alert('Solictação enviada com sucesso')
+                alert('Solicitação enviada com sucesso')
                 window.location.href='../view/home.php'</script>";
             }else{
                 echo "<script language='javascript' type='text/javascript'>
-                alert('Soliictação não enviada, tente novamente.')
+                alert('Solicitação não enviada, tente novamente.')
                 window.location.href='../view/home.php'</script>";
             }
             
+        }
+
+        public function solicitar_documento(){
+            if(isset($_SESSION['aluno'])){
+                $RA = unserialize($_SESSION['aluno'])->getRA();
+            }
+            $tipo_documento = $_POST['documento'];
+            $solicitacao = $this->envioEmail->enviarEmail('laiscostast2@gmail.com', 'Solicitacao de Documento', $this->corpo_email_solicitacao_documento($tipo_documento, $RA));
+            
+            if($solicitacao){
+                echo "<script language='javascript' type='text/javascript'>
+                alert('Solicitação enviada com sucesso')
+                window.location.href='../view/home.php'</script>";
+            }else{
+                echo "<script language='javascript' type='text/javascript'>
+                alert('Solicitação não enviada, tente novamente.')
+                window.location.href='../view/home.php'</script>";
+            }
+
         }
 
 
@@ -508,6 +559,10 @@
 
             case "solicitar_revisao_falta":
                 $alunoController->solicitar_revisao_falta();
+                break;
+
+            case "solicitar_documento":
+                $alunoController->solicitar_documento();
                 break;
                 
         
